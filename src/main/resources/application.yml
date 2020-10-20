@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: example-camel-idempotence-kafka
+
+  cloud:
+    service-registry:
+      auto-registration:
+        enabled: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
