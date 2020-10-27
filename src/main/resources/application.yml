@@ -12,3 +12,23 @@ management:
     web:
       exposure:
         include: "*"
+
+logging:
+  level:
+    org:
+      apache:
+        camel:
+          processor:
+            idempotence: DEBUG
+
+application:
+  directory:
+    inbound: /mnt/c/devtools/app/camel/inbound/
+    working: /mnt/c/devtools/apps/camel/working/
+    done: /mnt/c/devtools/app/camel/done/
+
+  kafka:
+    broker: 0.0.0.0:9092
+    topics:
+      idempotence: camel-idempotence
+      announcements: camel-announcements
