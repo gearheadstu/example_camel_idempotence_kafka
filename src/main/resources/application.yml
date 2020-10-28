@@ -32,3 +32,8 @@ application:
     topics:
       idempotence: camel-idempotence
       announcements: camel-announcements
+
+  camel:
+    routes:
+      idempotence: idempotence-consumer
+      announcements: announcements-consumer

@@ -1,34 +1,28 @@
 package org.kellyjones.examples.camel.routes;
 
+import lombok.Getter;
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+@Getter
 @Profile("local")
 @Component
-public class KafkaIdempotenceConsumerRoute extends RouteBuilder {
+public class KafkaIdempotenceConsumerRoute extends AbstractKafkaConsumerRoute {
 
     // What Kafka broker will we consume from?
     @Value("${application.kafka.broker}")
-    private String kafkaBroker;
+    private String kafkaBrokers;
 
     // What Kafka topic is used for maintaining clustered
     // idempotence for this app?
     @Value("${application.kafka.topics.idempotence}")
-    private String idempotenceTopic;
+    private String kafkaTopic;
 
-    @Override
-    public void configure() throws Exception {
-        from("kafka:" + idempotenceTopic + "?brokers=" + kafkaBroker)
-                .routeId("idempotent-consumer")
-                .log("======== BEGIN ======== ")
-                .log("New message received from Kafka")
-                .log("\ttopic: ${headers[kafka.TOPIC]}")
-                .log("\tpartition: ${headers[kafka.PARTITION]}")
-                .log("\toffset: ${headers[kafka.OFFSET]}")
-                .log("\tkey: ${headers[kafka.KEY]}")
-                .log("\tbody: ${body}")
-                .log("========= END =========");
-    }
+    // When we create the corresponding Camel route,
+    // what will its ID be?
+    @Value("${application.camel.routes.idempotence}")
+    private String routeId;
+
 }
